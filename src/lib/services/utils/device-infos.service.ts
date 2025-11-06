@@ -40,8 +40,6 @@ export class DeviceInfosService {
       manufacturer: info.manufacturer,
       isVirtual: info.isVirtual,
       memUsed: info.memUsed,
-      realDiskFree: info.realDiskFree,
-      realDiskTotal: info.realDiskTotal,
       webViewVersion: info.webViewVersion
     };
 
