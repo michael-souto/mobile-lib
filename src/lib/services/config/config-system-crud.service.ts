@@ -4,7 +4,7 @@ import { CrudService } from '../design/crud-service.service';
 import { UtilsMobileService } from '../utils/app-utils.service';
 import { ConfigSystemApiService } from './config-system-api.service';
 import { ConfigSystemValidatorService } from './config-system-validator.service';
-import { AuthMobileService } from 'projects/security-lib/src/lib/services/auth/auth-mobile.service';
+import { AuthMobileService } from 'projects/mobile-lib/src/lib/services/auth/auth-mobile.service';
 import { ConfigSystem } from '../../models/config-system.model';
 
 @Injectable({
