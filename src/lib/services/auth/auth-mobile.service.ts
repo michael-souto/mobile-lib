@@ -66,7 +66,7 @@ export class AuthMobileService extends AuthService {
         this.login(loginDecript, passDecript, () => {console.log('OK!')});
       }
     } else {
-      this.redirectToLogin();
+      this.logout(environment.goToLoginOnTokenError);
     }
   }
 
