@@ -6,7 +6,7 @@ import {
 } from '@capacitor-community/sqlite';
 import { environment } from 'src/environments/environment';
 
-const DB_NAME = environment.databaseName;
+const DB_NAME = environment.software;
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +34,7 @@ export class DatabaseService {
 
   async dropAllTables() {
     console.log('DROPING ALL TABLES..............');
-    environment.databaseTables.split(';').forEach(async (table) => {
+    environment.software.split(';').forEach(async (table) => {
       const sql = `DROP TABLE IF EXISTS ${table};`;
       console.log('DROPING TABLE '+ table);
       await this.db.execute(sql);
