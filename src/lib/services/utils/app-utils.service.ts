@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {
   ActionSheetButton,
   ActionSheetController,
@@ -6,20 +6,18 @@ import {
   IonItemSliding,
   Platform,
   ToastController,
-} from '@ionic/angular';
-import { Network } from '@capacitor/network';
-import { UtilsService } from 'projects/design-lib/src/lib/services/utils/utils.service';
-import { Router } from '@angular/router';
-import { AsyncFunctionQueueService } from 'projects/design-lib/src/lib/services/async-function-queue.service';
-import { HttpClient } from '@angular/common/http';
-import { TranslateService } from '@ngx-translate/core';
-import { Http } from '@capacitor-community/http';
+} from "@ionic/angular";
+import { Network } from "@capacitor/network";
+import { UtilsService } from "projects/design-lib/src/lib/services/utils/utils.service";
+import { Router } from "@angular/router";
+import { AsyncFunctionQueueService } from "projects/design-lib/src/lib/services/async-function-queue.service";
+import { HttpClient } from "@angular/common/http";
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UtilsMobileService extends UtilsService {
-
   constructor(
     public override router: Router,
     public override asyncFunctionQueueService: AsyncFunctionQueueService,
@@ -27,19 +25,14 @@ export class UtilsMobileService extends UtilsService {
     protected override translate: TranslateService,
     public platform: Platform,
     protected _actionSheetCtrl: ActionSheetController,
-    protected _toastController: ToastController
-
+    protected _toastController: ToastController,
   ) {
-    super(router,asyncFunctionQueueService, http, translate);
-    this._isMobile =
-      this.platform.is('capacitor') &&
-      this.platform.is('hybrid') &&
-      !this.platform.is('mobileweb');
+    super(router, asyncFunctionQueueService, http, translate);
+    this._isMobile = this.platform.is("capacitor") && this.platform.is("hybrid") && !this.platform.is("mobileweb");
     this.loadIp();
   }
 
   private _isMobile = false;
-
 
   override isMobile() {
     return this._isMobile;
@@ -51,39 +44,29 @@ export class UtilsMobileService extends UtilsService {
 
   isReady() {}
 
-
   loadIp() {
-    Http.get({ url: 'https://api.ipify.org/?format=json' }).then(response => {
-      this.ipAddress = response.data.ip;
-      console.log("IP Externo:", this.ipAddress);
-    });
+    fetch("https://api.ipify.org/?format=json")
+      .then((res) => res.json())
+      .then((data) => {
+        this.ipAddress = data.ip;
+        console.log("IP Externo:", this.ipAddress);
+      })
+      .catch((err) => console.error("Erro ao buscar IP:", err));
   }
 
   async presentToast(message: string, isError: boolean) {
     await this.presentDialog({ header: message }, isError);
   }
 
-  async presentToastTyped(
-    message: string,
-    type: string,
-    icon: string = 'alert-circle-outline'
-  ) {
+  async presentToastTyped(message: string, type: string, icon: string = "alert-circle-outline") {
     await this.presentDialogTyped({ header: message }, type, icon);
   }
 
   async presentDialog(dialog: Dialog, isError: boolean) {
-    this.presentDialogTyped(
-      dialog,
-      isError ? 'danger' : 'success',
-      isError ? 'close-circle' : 'checkmark-circle'
-    );
+    this.presentDialogTyped(dialog, isError ? "danger" : "success", isError ? "close-circle" : "checkmark-circle");
   }
 
-  async presentDialogTyped(
-    dialog: Dialog,
-    type: string,
-    icon: string = 'alert-circle-outline'
-  ) {
+  async presentDialogTyped(dialog: Dialog, type: string, icon: string = "alert-circle-outline") {
     const toast = await this._toastController.create({
       message: dialog.header,
       duration: 1000,
@@ -91,8 +74,8 @@ export class UtilsMobileService extends UtilsService {
       icon,
       buttons: [
         {
-          text: 'Ok',
-          role: 'cancel',
+          text: "Ok",
+          role: "cancel",
           handler: () => {},
         },
       ],
@@ -107,7 +90,7 @@ export class UtilsMobileService extends UtilsService {
       btns.push({
         text: x.text,
         handler: x.handler,
-        data: !x.handler ? { action: 'cancel' } : null,
+        data: !x.handler ? { action: "cancel" } : null,
       });
     });
     const actionSheet = await this._actionSheetCtrl.create({
@@ -120,7 +103,7 @@ export class UtilsMobileService extends UtilsService {
   async toggleAccordion(ionItemSliding: IonItemSliding) {
     const length = await ionItemSliding.getOpenAmount();
     if (length == 0) {
-      ionItemSliding.open('end');
+      ionItemSliding.open("end");
     } else {
       ionItemSliding.close();
     }
